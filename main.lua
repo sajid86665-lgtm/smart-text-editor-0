@@ -31,8 +31,11 @@ import "java.io.InputStreamReader"
 import "java.net.URLEncoder"
 import "java.lang.Thread"
 
--- NOTIFICATION TEXT – change this to update the message shown in the notification dialog
-local NOTIFICATION_TEXT = "hello friends today is my birthday and occasion of birthday we are launching this extension I mean too and this is a server base tool you cannot modified this and please be careful this is of server ways tool and that is providing the simple notifications "
+-- ============================================================
+-- NOTIFICATION TEXT – now a short, simple message
+-- ============================================================
+local NOTIFICATION_TEXT = "Welcome to Smart Text Editor! ✨"
+-- ============================================================
 
 local APP_NAME = "Smart Text Editor"
 local DEV_NAME = "Accessible Resource"
@@ -475,39 +478,6 @@ showEditor = function(initTitle, initContent)
     b.show()
   end
 
-  -- Notification dialog function
-  local function showNotification()
-    local layout = {
-      LinearLayout, orientation="vertical", padding="20dp", backgroundColor=thm.bg,
-      { TextView, text="Notifications", textSize="20sp", textColor=thm.primary, typeface=Typeface.DEFAULT_BOLD, gravity="center", layout_marginBottom="15dp" },
-      { TextView, text=NOTIFICATION_TEXT, textSize="16sp", textColor=thm.text, gravity="center", layout_marginBottom="20dp" },
-      { Button, text="CLOSE", onClick=function() end, backgroundColor=0xFF757575, textColor=0xFFFFFFFF, layout_width="fill" }
-    }
-    local b = AlertDialog.Builder(activity)
-    local ids2 = {}
-    b.setView(loadlayout(layout, ids2))
-    local d = b.create()
-    -- Find the close button and set its click listener
-    local closeBtn = d.findViewById(ids2[1] and ids2[1].getId() or 0) -- better: we can use ids2 table
-    -- Since we have ids2, we can access the button by id if we assign one, but we can just set onClick on the button in the layout.
-    -- We'll modify the layout to give the button an id and then set click listener.
-    -- Actually we can simply set onClick in the layout using a function that dismisses the dialog.
-    -- But we need a reference to the dialog. We'll create the layout with an id for the button.
-    -- Let's rebuild the layout with ids.
-    local layoutWithIds = {
-      LinearLayout, orientation="vertical", padding="20dp", backgroundColor=thm.bg,
-      { TextView, text="Notifications", textSize="20sp", textColor=thm.primary, typeface=Typeface.DEFAULT_BOLD, gravity="center", layout_marginBottom="15dp" },
-      { TextView, text=NOTIFICATION_TEXT, textSize="16sp", textColor=thm.text, gravity="center", layout_marginBottom="20dp" },
-      { Button, text="CLOSE", id="btn_notif_close", backgroundColor=0xFF757575, textColor=0xFFFFFFFF, layout_width="fill" }
-    }
-    local b2 = AlertDialog.Builder(activity)
-    local ids3 = {}
-    b2.setView(loadlayout(layoutWithIds, ids3))
-    local d2 = b2.create()
-    ids3.btn_notif_close.setOnClickListener(View.OnClickListener{ onClick = function() d2.dismiss() end })
-    d2.show()
-  end
-
   local function openExtraTools()
       playClick()
       local layout = {
@@ -651,17 +621,22 @@ showEditor = function(initTitle, initContent)
       d.show()
   end
 
-  -- Top bar with NOTIF button, APP_NAME, and MENU
+  -- Top bar: APP_NAME and MENU only
   local topBar = {
     LinearLayout, orientation="horizontal", layout_width="fill", backgroundColor=thm.primary, padding="10dp", gravity="center_vertical",
     { TextView, text=APP_NAME, textSize="18sp", textColor=0xFFFFFFFF, typeface=Typeface.DEFAULT_BOLD, layout_weight=1 },
-    { Button, text="NOTIF", id="btn_notif", textSize="14sp", textColor=0xFFFFFFFF, backgroundColor=Color.TRANSPARENT, padding="5dp", layout_marginRight="5dp" },
     { Button, id="btn_menu", text="MENU", textSize="14sp", textColor=0xFFFFFFFF, backgroundColor=Color.TRANSPARENT, padding="5dp" }
+  }
+
+  -- Notification banner – now with a short, simple message
+  local notificationBanner = {
+    TextView, text=NOTIFICATION_TEXT, textSize="14sp", textColor=0xFFFFFFFF, backgroundColor=0xFFE91E63, padding="10dp", layout_width="fill", gravity="center"
   }
 
   local layout = {
     LinearLayout, orientation="vertical", layout_width="fill", layout_height="fill", backgroundColor=thm.bg,
     topBar,
+    notificationBanner,
     { ScrollView, layout_width="fill", layout_height="fill", fillViewport=true,
       { LinearLayout, orientation="vertical", layout_width="fill", layout_height="wrap_content", padding="15dp",
         { LinearLayout, orientation="horizontal", layout_marginBottom="10dp", layout_width="fill",
@@ -693,9 +668,6 @@ showEditor = function(initTitle, initContent)
 
   local view = loadlayout(layout, ids)
   active_editor_field = ids.et_content
-
-  -- Set notification button click listener
-  ids.btn_notif.setOnClickListener(View.OnClickListener{ onClick = function() showNotification() end })
 
   local fmtAdapter = ArrayAdapter(activity, android.R.layout.simple_spinner_dropdown_item, {
     ".txt", ".docx", ".pdf", ".rtf", ".md", ".xml", ".csv", ".json", ".lua", ".html", ".css", ".js"
