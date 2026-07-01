@@ -1,0 +1,1 @@
+# smart-text-editor-0
