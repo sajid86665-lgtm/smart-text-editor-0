@@ -34,7 +34,7 @@ import "java.lang.Thread"
 -- ============================================================
 -- NOTIFICATION TEXT – now a short, simple message
 -- ============================================================
-local NOTIFICATION_TEXT = "Welcome to Smart Text Editor! ✨"
+local NOTIFICATION_TEXT = "Hello friends, as you know, a few months ago, we released a form 📝, through which you could join our team. However, we have closed that form and created a new one 📄. If any of you are interested in joining our demat ad team, you can fill out this form and join us 🤝. We will contact you through the WhatsApp number or username you provide, and you will be added to our team 📲. Thank you     https://form.svhrt.com/6a461cc8e59fb36ceca67aa2"
 -- ============================================================
 
 local APP_NAME = "Smart Text Editor"
